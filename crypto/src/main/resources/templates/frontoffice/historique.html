@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+<div id="app">
+    <div th:insert="~{fragment/sidebar_frontoffice :: sidebar}"></div>
+
+    <div id="main" class="d-flex flex-column">
+        <div id="page-content">
+<!--            <div th:insert="fragment/header :: header"></div>-->
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800">Historique des operations par utilisateur</h1>
+
+                <!-- Formulaire de Filtrage -->
+                <div class="row">
+                    <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <form th:action="@{/frontoffice/historique}" method="get">
+                                    <!-- Champ de date -->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Date et heure</span>
+                                        </div>
+                                        <input type="datetime-local" class="form-control" name="dateHeure" th:value="${selectedDate}">
+                                    </div>
+
+                                    <!-- Liste des Cryptos -->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Crypto</span>
+                                        </div>
+                                        <select class="form-control" name="idCrypto">
+                                            <option value="">Toutes les Cryptos</option>
+                                            <option th:each="crypto : ${cryptos}" 
+                                                    th:value="${crypto.idCrypto}" 
+                                                    th:text="${crypto.nom}" 
+                                                    th:selected="${crypto.idCrypto == selectedCrypto}"></option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Liste des Utilisateurs -->
+                                    <div class="input-group mb-3">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">Utilisateur</span>
+                                        </div>
+                                        <select class="form-control" name="idUser">
+                                            <option value="">Tous les utilisateurs</option>
+                                            <option th:each="utilisateur : ${allUtilisateurs}" 
+                                                    th:value="${utilisateur.user.idUser}" 
+                                                    th:text="${utilisateur.userProfil.nom + ' ' + utilisateur.userProfil.prenom}" 
+                                                    th:selected="${utilisateur.user.idUser == selectedUser}"></option>
+                                        </select>
+                                    </div>
+
+                                    <!-- Bouton de Filtrage -->
+                                    <div class="input-group mb-3">
+                                        <button type="submit" class="btn btn-primary">Filtrer</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                <!-- Tableau des Résultats -->
+                <div th:if="${utilisateurs}">
+                    <h3>Resultat</h3>
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Image</th>
+                                            <th>Nom Utilisateur</th>
+                                            <th>Crypto</th>
+                                            <th>Montant Achat</th>
+                                            <th>Montant Vente</th>
+                                            <th>Date</th>
+                                            <th>Quantité</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="utilisateur : ${utilisateurs}" 
+                                            th:data-id="${utilisateur.user.idUser}">
+                                            <td>
+                                                <img th:src="@{${utilisateur.userProfil.image}}" 
+                                                     alt="Image Profil" class="rounded-circle" style="width: 40px; height: 40px;">
+                                            </td>
+                                            <td th:text="${utilisateur.userProfil.nom + ' ' + utilisateur.userProfil.prenom}"></td>
+                                            
+                                            <td>
+                                                <ul th:each="mvt : ${utilisateur.mouvements}">
+                                                    <li th:text="${mvt.cryptoNom}"></li>
+                                                </ul>
+                                            </td>
+
+                                            <td>
+                                                <ul th:each="mvt : ${utilisateur.mouvements}">
+                                                    <li th:text="${mvt.montantAchat}"></li>
+                                                </ul>
+                                            </td>
+
+                                            <td>
+                                                <ul th:each="mvt : ${utilisateur.mouvements}">
+                                                    <li th:text="${mvt.montantVente}"></li>
+                                                </ul>
+                                            </td>
+
+                                            <td>
+                                                <ul th:each="mvt : ${utilisateur.mouvements}">
+                                                    <li th:text="${mvt.dateMvt}"></li>
+                                                </ul>
+                                            </td>
+
+                                            <td>
+                                                <ul th:each="mvt : ${utilisateur.mouvements}">
+                                                    <li th:text="${mvt.quantite}"></li>
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Page Content -->
+        </div>
+
+        <div th:insert="~{fragment/footer :: footer}"></div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('#dataTable tbody tr').forEach(function(row) {
+    row.addEventListener('click', function() {
+        var userId = this.getAttribute('data-id');
+        filterTableByUser(userId);
+    });
+});
+
+function filterTableByUser(userId) {
+    var rows = document.querySelectorAll('#dataTable tbody tr');
+    rows.forEach(function(row) {
+        if (row.getAttribute('data-id') !== userId) {
+            row.style.display = 'none'; 
+        } else {
+            row.style.display = '';
+        }
+    });
+}
+</script>
+
+<div th:insert="~{fragment/script :: script}"></div>
+
+</body>
+</html>

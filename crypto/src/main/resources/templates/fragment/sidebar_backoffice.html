@@ -1,0 +1,138 @@
+<div th:fragment="sidebar">
+
+    <div id="sidebar" class="active">
+        <div class="sidebar-wrapper active bg-light-primary">
+            <div class="sidebar-header">
+                <div class="d-flex justify-content-between">
+                    <div class="toggler">
+                        <a href="#" class="sidebar-hide d-xl-none d-block"><i class="bi bi-x bi-middle"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="sidebar-menu">
+                <div class="topbar-divider d-none d-sm-block"></div>
+
+                <!-- Nav Item - User Information -->
+                <li class="nav-item dropdown no-arrow">
+                    <a class="nav-link dropdown-toggle" th:href="@{#}" id="userDropdown" role="button"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                        <!-- 🔹 Affichage de la photo de profil -->
+                        <img id="user-profile-image" class="img-profile rounded-circle"
+                             style="width: 40px; height: 40px; object-fit: cover;">
+
+                        <!-- 🔹 Affichage du nom -->
+                        <span id="user-profile-name" class="ml-2 d-none d-lg-inline text-gray-600 small">
+                        Utilisateur
+                    </span>
+                    </a>
+
+                    <!-- Dropdown - User Information -->
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                         aria-labelledby="userDropdown">
+                        {% comment %} <a class="dropdown-item" th:href="@{/parametre/edit}">
+                            <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Paramètre
+                        </a> {% endcomment %}
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href="@{/logout}">
+                            <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                            Se déconnecter
+                        </a>
+                    </div>
+                </li>
+
+                <!-- Script AJAX pour récupérer les données utilisateur -->
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        function loadUserProfileData() {
+                            fetch('/header/data')
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data) {
+                                        document.getElementById('user-profile-image').src = data.image;
+                                        document.getElementById('user-profile-name').textContent = data.nom;
+                                    } else {
+                                        console.error("Aucun utilisateur trouvé.");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.error("Erreur lors du chargement des données utilisateur:", error);
+                                });
+                        }
+
+                        loadUserProfileData();
+                    });
+                </script>
+
+                <ul class="menu">
+                    <li class="sidebar-title">Menu</li>
+
+                    <li class="sidebar-item">
+                        <a class="nav-link" th:href="@{/backoffice/crypto/list}">
+                            <i class="fas fa-fw fa-tachometer-alt"></i>
+                            <span>Accueil - Cours de crypto</span></a>
+                    </li>
+
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="fas fa-fw fa-chart-line"></i>
+                            <span>Analyse</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a class="nav-link" th:href="@{/backoffice/crypto/graph}">
+                                    <span>Evolution Graphique</span>
+                                </a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a class="nav-link" th:href="@{/backoffice/analysecrypto}">
+                                    <span>Analyse Cryptomonnaie</span>
+                                </a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a class="nav-link" th:href="@{/backoffice/analysecommission}">
+                                    <span>Analyse commission</span>
+                                </a>
+                            </li>
+                            <li class="submenu-item ">
+                                <a class="nav-link" th:href="@{/backoffice/analyseuser}">
+                                    <span>Analyse Utilisateur</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="fas fa-fw fa-clipboard"></i>
+                            <span>Gestion</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a class="nav-link" th:href="@{/backoffice/demandes}">
+                                    <span>Demandes de transaction</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li class="sidebar-item  has-sub">
+                        <a href="#" class='sidebar-link'>
+                            <i class="fas fa-cogs"></i>
+                            <span>Parametres</span>
+                        </a>
+                        <ul class="submenu ">
+                            <li class="submenu-item ">
+                                <a class="nav-link" th:href="@{/backoffice/commission}">
+                                    <span>Commission</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <button class="sidebar-toggler btn x"><i data-feather="x"></i></button>
+        </div>
+    </div>
+</div>

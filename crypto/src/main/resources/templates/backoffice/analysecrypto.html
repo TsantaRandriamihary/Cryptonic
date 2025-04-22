@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+<div id="app">
+
+    <div th:insert="~{fragment/sidebar_backoffice :: sidebar}"></div>
+
+    <div id="main" class="d-flex flex-column">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <!-- Main Content -->
+        <div class="page-content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+                <h1 class="h3 mb-4 text-gray-800">Analyse des Cryptos</h1>
+
+                <div class="row">
+                    <div class="col-xl-4 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <form th:action="@{/backoffice/analysecrypto/filtrer}" method="post">
+                                        
+                                        <!-- Sélection du Type d'Analyse -->
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Analyse</span>
+                                            </div>
+                                            <select class="custom-select" name="analyseType">
+                                                <option value="tous">Tous</option>
+                                                <option value="min">Min</option>
+                                                <option value="max">Max</option>
+                                                <option value="moyenne">Moyenne</option>
+                                                <option value="ecartype">Écart Type</option>
+                                                <option value="quartile">1er Quartile</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Sélection des Cryptos -->
+                                        <div class="col-12 mb-4">
+                                            <div class="card">
+                                                <div class="card-header d-flex justify-content-between align-items-center">
+                                                    <div class="form-group">
+                                                        <label class="form-label">Cryptomonnaies</label>
+                                                        <button type="button" class="btn btn-sm btn-primary me-2" onclick="selectAll()">Tous</button>
+                                                        <button type="button" class="btn btn-sm btn-secondary" onclick="resetAll()">Aucun</button>
+                                                    </div>
+                                                </div>
+                                                <div class="card-content">
+                                                    <div class="card-body p-3">
+                                                        <ul class="list-unstyled mb-0">
+                                                            <li class="d-inline-block me-3 mb-2" th:each="crypto : ${cryptos}">
+                                                                <div class="form-check">
+                                                                    <div class="checkbox">
+                                                                        <input type="checkbox" class="form-check-input crypto-checkbox" name="idCryptos" th:value="${crypto.idCrypto}">
+                                                                        <label th:text="${crypto.nom}"></label>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- Champs de date avec espacement supplémentaire -->
+                                        <div class="input-group mb-3 mt-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Début</span>
+                                            </div>
+                                            <input type="datetime-local" class="form-control" name="startDate" required>
+                                        </div>
+                                        
+                                        <div class="input-group mb-3">
+                                            <div class="input-group-prepend">
+                                                <span class="input-group-text">Fin</span>
+                                            </div>
+                                            <input type="datetime-local" class="form-control" name="endDate" required>
+                                        </div>
+                                        
+
+                                        <!-- Bouton Valider -->
+                                        <div class="input-group mb-3">
+                                            <button type="submit" class="btn btn-primary">Valider</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+                
+                <!-- Résultats de l'Analyse -->
+                <div th:if="${analyses}">
+                    <h3>Résultats de l'Analyse</h3>
+                    <div class="card shadow mb-4">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Crypto</th>
+                                            <th>Symbole</th>
+                                            <th th:if="${analyseType == 'tous' || analyseType == 'min'}">Min</th>
+                                            <th th:if="${analyseType == 'tous' || analyseType == 'max'}">Max</th>
+                                            <th th:if="${analyseType == 'tous' || analyseType == 'moyenne'}">Moyenne</th>
+                                            <th th:if="${analyseType == 'tous' || analyseType == 'ecartype'}">Écart-Type</th>
+                                            <th th:if="${analyseType == 'tous' || analyseType == 'quartile'}">1er Quartile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="analyse : ${analyses}">
+                                            <td th:text="${analyse.cryptoNom}"></td>
+                                            <td th:text="${analyse.cryptoSymbole}"></td>
+                                            <td th:if="${analyseType == 'tous' || analyseType == 'min'}" th:text="${analyse.get('Min')}"></td>
+                                            <td th:if="${analyseType == 'tous' || analyseType == 'max'}" th:text="${analyse.get('Max')}"></td>
+                                            <td th:if="${analyseType == 'tous' || analyseType == 'moyenne'}" th:text="${analyse.get('Moyenne')}"></td>
+                                            <td th:if="${analyseType == 'tous' || analyseType == 'ecartype'}" th:text="${analyse.get('EcartType')}"></td>
+                                            <td th:if="${analyseType == 'tous' || analyseType == 'quartile'}" th:text="${analyse.get('PremierQuartile')}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- End of Page Content -->
+        </div>
+
+        <div th:insert="~{fragment/footer :: footer}"></div>
+    </div>
+</div>
+<script>
+    function selectAll() {
+        document.querySelectorAll('.crypto-checkbox').forEach(checkbox => {
+            checkbox.checked = true;
+        });
+    }
+
+    function resetAll() {
+        document.querySelectorAll('.crypto-checkbox').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
+</script>
+<div th:insert="~{fragment/script :: script}"></div>
+
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+<div id="app">
+
+    <div th:insert="~{fragment/sidebar_backoffice :: sidebar}"></div>
+
+    <div id="main" class="d-flex flex-column">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <!-- Main Content -->
+        <div class="page-content">
+
+            <!-- Begin Page Content -->
+            <div class="container-fluid">
+
+                <div class="col-xl-10 col-lg-12 col-md-9">
+
+                    <div class="card o-hidden border-0 shadow-lg my-5">
+                        <div class="card-body p-0">
+                            <!-- Nested Row within Card Body -->
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="p-5">
+                                        <div class="text-center">
+                                            <h1 class="h4 text-gray-900 mb-4">Réglage des commissions : </h1>
+                                        </div>
+                                        <form class="user" th:action="@{/backoffice/commission}" method="post">
+                                            <div class="input-group">
+                                                <label for="date" class="input-group-text">
+                                                    Date et heure
+                                                </label>
+                                                <input type="datetime-local"class="form-control form-control-user"
+                                                       id="date" aria-describedby="date"
+                                                       placeholder="date-heure" name="date" required>
+                                            </div> <br>
+                                            <div class="input-group">
+                                                <label for="vente" class="input-group-text">
+                                                    % de commissions en ventes
+                                                </label>
+                                                <input type="number"class="form-control form-control-user"
+                                                       id="vente" aria-describedby="vente"
+                                                       placeholder="% de commissions en ventes" min="1" name="vente" required>
+                                            </div> <br>
+                                            <div class="input-group" for="achat">
+                                                <label class="input-group-text">
+                                                    % de commissions en achats
+                                                </label>
+                                                <input type="number" class="form-control form-control-user"
+                                                       id="achat" aria-describedby="achat"
+                                                       placeholder="% de commissions en achats" min="1" name="achat" required>
+                                            </div> <br>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                        Valider
+                                                    </button>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <button type="reset" class="btn btn-outline-primary btn-user btn-block">
+                                                        Effacer
+                                                    </button>
+                                                </div>
+                                            </div>
+
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!-- End of Page Content -->
+        </div>
+
+        <div th:insert="~{fragment/footer :: footer}"></div>
+    </div>
+</div>
+
+<div th:insert="~{fragment/script :: script}"></div>
+
+</body>
+</html>

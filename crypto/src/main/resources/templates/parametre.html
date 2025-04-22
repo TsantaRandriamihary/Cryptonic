@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="app">
+    <!-- Sidebar -->
+    <div th:insert="~{fragment/sidebar_backoffice :: sidebar}"></div>
+
+    <!-- Content Wrapper -->
+    <div id="main" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="page-content">
+
+                <!-- Outer Row -->
+                <div class="row justify-content-center">
+
+                    <div class="col-xl-10 col-lg-12 col-md-9">
+
+                        <div class="card o-hidden border-0 shadow-lg my-5">
+                            <div class="card-body p-0">
+                                <!-- Nested Row within Card Body -->
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="p-5">
+                                            <div class="text-center">
+                                                <h1 class="h4 text-gray-900 mb-4">Paramêtre : </h1>
+                                            </div>
+                                            <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                                                <span th:text="${errorMessage}"></span>
+                                            </div>
+                                            <form class="user" th:action="@{/userProfil/update}" method="post">
+                                                <div class="input-group">
+                                                    <label for="nbtentative" class="input-group-text">
+                                                        Nbr tentative
+                                                    </label>
+                                                    <input type="number"class="form-control form-control-user"
+                                                        id="nbtentative" aria-describedby="nbtentative"
+                                                        placeholder="Nb de tentatvie" min="1" name="nbrTentative" value="${parametre.nbrTentative}" required>
+                                                </div> <br>
+                                                <div class="input-group" for="dureetentative">
+                                                    <label class="input-group-text">
+                                                        Durée de tentative
+                                                    </label>
+                                                    <input type="number" class="form-control form-control-user"
+                                                        id="dureetentative" aria-describedby="dureetentative"
+                                                        placeholder="Durée de tentative en seconde (en s)" min="1" name="dureeTentative" value="${parametre.dureeTentative}" required>
+                                                </div> <br>
+                                                <div class="input-group">
+                                                    <label class="input-group-text" for="dureesession">
+                                                        Durée de session
+                                                    </label>
+                                                    <input type="number" class="form-control form-control-user"
+                                                        id="dureesession" aria-describedby="dureesession"
+                                                        placeholder="Durée de session en seconde (en s)" min="1" name="dureeSession" value="${parametre.dureeSession}" required>
+                                                </div> <br>
+                                                <div class="input-group">
+                                                    <label class="input-group-text" for="dureepin">
+                                                        Durée de code PIN
+                                                    </label>
+                                                    <input type="number" class="form-control form-control-user"
+                                                        id="dureepin" aria-describedby="dureepin"
+                                                        placeholder="Durée de code PIN en seconde (en s)" min="1" name="dureePin" value="${parametre.dureePin}" required>
+                                                </div> <br>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                                            Valider
+                                                        </button>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <button type="reset" class="btn btn-outline-primary btn-user btn-block">
+                                                            Effacer
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+    </div>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="app">
+
+        <div th:insert="~{fragment/sidebar_backoffice :: sidebar}"></div>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="main" class="d-flex flex-column">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <!-- Main Content -->
+            <div class="page-content">
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Statistiques des Utilisateurs</h1>
+                    <p class="mb-4">Ci-dessous les statistiques des utilisateurs, incluant les valeurs de leurs portefeuilles :</p>
+
+                    <!-- Formulaire de filtrage -->
+                <div class="row">
+                    <div class="col-xl-3 col-md-6 mb-4">
+                        <div class="card border-left-primary shadow h-100 py-2">
+                            <div class="card-body">
+                                <div class="row no-gutters align-items-center">
+                                    <form th:action="@{/backoffice/analyseuser}" method="get">
+                                        <div class="input-group mb-3">
+                                            <label class="form-label"> Date et heure maximum </label>
+                                            <input type="datetime-local" class="form-control" id="dateMax" name="dateMax"
+                                            th:value="${#temporals.format(dateMax, 'yyyy-MM-dd''T''HH:mm')}"
+                                            style="appearance: auto; height: 38px; padding: 6px 12px; font-size: 1rem; width: 100%;">
+
+                                        </div>
+                                        <div class="input-group mb-3">
+                                            <button type="submit" class="btn btn-primary">Valider</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Tableau statistique</h6>
+                        </div>
+                        <div class="card-body">
+                            
+
+                            <!-- Table Responsive -->
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th></th>
+                                            <th>Utilisateur</th>
+                                            <th>Total achats (Ar)</th>
+                                            <th>Total ventes (Ar)</th>
+                                            <th>Valeur Portefeuille (Ar)</th>
+                                        </tr>
+                                    </thead>
+                                    
+                                    <tbody>
+                                        <!-- Boucle Thymeleaf pour afficher les utilisateurs -->
+                                        <tr th:each="entry : ${resultatsAnalyse}">
+                                            <td>
+                                                <img th:src="@{${entry.key.userProfil.image}}" 
+                                                     alt="Image Profil" class="rounded-circle" style="width: 40px; height: 40px;">
+                                            </td>
+                                            <td th:text="${entry.key.userProfil.nom + ' ' + entry.key.userProfil.prenom}"></td>
+                                            <td th:text="${entry.value.sommeMontantAchat}"></td>
+                                            <td th:text="${entry.value.sommeMontantVente}"></td>
+                                            <td th:text="${entry.value.valeurPortefeuille}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="~{fragment/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" th:href="@{#page-top}">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" th:href="@{login.html}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+
+</body>
+
+</html>

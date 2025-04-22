@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/link :: link}"></head>
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <div th:insert="~{fragment/sidebar :: sidebar}"></div>
+        <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Main Content -->
+        <div id="content">
+
+            <!-- Topbar -->
+            <div th:insert="~{fragment/header :: header}"></div>
+            <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Critères</h1>
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <form class="">
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Analyse</span>
+                                                </div>
+                                                <select class="custom-select">
+                                                    <option> Choississez le type d'analyse ...</option>
+                                                    <option> Moyenne </option>
+                                                    <option> Somme </option>
+                                                </select>
+                                                
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        <h4 class="card-title">Cryptomonnaie</h4>
+                                                    </div>
+                                                    <div class="card-content">
+                                                        <div class="card-body">
+                                                            <ul class="list-unstyled mb-0">
+                                                                <li class="d-inline-block me-2 mb-1">
+                                                                    <div class="form-check">
+                                                                        <div class="checkbox">
+                                                                            <input type="checkbox" id="checkbox1" class="form-check-input" checked="">
+                                                                            <label for="checkbox1">BTC - BitCoin</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="d-inline-block me-2 mb-1">
+                                                                    <div class="form-check">
+                                                                        <div class="checkbox">
+                                                                            <input type="checkbox" id="checkbox1" class="form-check-input" checked="">
+                                                                            <label for="checkbox1">ETH - Ethereum</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="d-inline-block me-2 mb-1">
+                                                                    <div class="form-check">
+                                                                        <div class="checkbox">
+                                                                            <input type="checkbox" id="checkbox1" class="form-check-input" checked="">
+                                                                            <label for="checkbox1">BNB - Binance Coin</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="d-inline-block me-2 mb-1">
+                                                                    <div class="form-check">
+                                                                        <div class="checkbox">
+                                                                            <input type="checkbox" id="checkbox1" class="form-check-input" checked="">
+                                                                            <label for="checkbox1">XRP - Ripple</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="d-inline-block me-2 mb-1">
+                                                                    <div class="form-check">
+                                                                        <div class="checkbox">
+                                                                            <input type="checkbox" id="checkbox1" class="form-check-input" checked="">
+                                                                            <label for="checkbox1">ADA - Cardano</label>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Debut</span>
+                                                </div>
+                                                <input type="datetime-local" class="form-control" aria-describedby="date_fin">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text">Fin</span>
+                                                </div>
+                                                <input type="datetime-local" class="form-control" aria-describedby="date_fin">
+                                            </div>
+                                            <div class="input-group mb-3">
+                                                <button type="submit" class="btn btn-primary"> Valider </button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <!-- Content Row -->
+                    <div class="row">
+
+                        <div class="col-xl-8 col-lg-7">
+
+                            <!-- Area Chart -->
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Courbe d'evolution</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart"></canvas>
+                                    </div>
+                                    <hr>
+                                    Les donnees et le format est stockes dans le fichier
+                                    <code>/js/demo/chart-area-demo.js</code>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="~{fragment/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" th:href="@{#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" th:href="@{login.html}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+</body>
+
+</html>

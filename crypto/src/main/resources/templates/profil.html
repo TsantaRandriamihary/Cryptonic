@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/link :: link}"></head>
+<body class="bg-gradient-primary">
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-xl-10 col-lg-12 col-md-9">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-0">
+                        <div class="row">
+                            <div class="col-lg-6 d-none d-lg-block bg-login-image"></div>
+                            <div class="col-lg-6">
+                                <div class="p-5">
+                                    <div class="text-center">
+                                        <h1 class="h4 text-gray-900 mb-4">Bienvenue !</h1>
+                                    </div>
+                                    <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                                        <p th:text="${errorMessage}"></p>
+                                    </div>
+                                    <form class="user" th:action="@{/userProfil/profil}" method="post"  enctype="multipart/form-data">
+                                        <div class="form-group text-center">
+                                            <label for="image">Photo de profil</label>
+                                            <div style="display: flex; flex-direction: column; align-items: center;">
+                                                <img id="preview" 
+                                                     th:src="@{/assets/img/default-profile.png}" 
+                                                     alt="Votre photo de profil"
+                                                     style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; cursor: pointer;"
+                                                     >
+                                                <input type="file" 
+                                                       class="form-control" 
+                                                       id="image" 
+                                                       name="image" 
+                                                       style="display: none;" 
+                                                       accept="image/*" 
+                                                       onchange="previewImage(event)">
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user" 
+                                                   name="nom" placeholder="Nom">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" class="form-control form-control-user" 
+                                                   name="prenom" placeholder="Prénoms">
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="date" class="form-control form-control-user" 
+                                                   name="naissance" placeholder="Date de naissance">
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control form-control-user custom-select"
+                                                    name="idGenre">
+                                                <option value="">Sélectionnez un genre</option>
+                                                <option th:each="genre : ${genres}" 
+                                                        th:value="${genre.idGenre}" 
+                                                        th:text="${genre.val}">
+                                                </option>
+                                            </select>
+                                        </div>
+
+                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                            Valider
+                                        </button>
+                                        <hr>
+                                        <button type="reset" class="btn btn-outline-primary btn-user btn-block">
+                                            Effacer
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+    <script>
+        function previewImage(event) {
+            const preview = document.getElementById('preview');
+            const file = event.target.files[0];
+    
+            if (file) {
+                const reader = new FileReader();
+    
+                reader.onload = function(e) {
+                    preview.src = e.target.result;
+                }
+    
+                reader.readAsDataURL(file);
+            }
+        }
+    
+        document.getElementById('preview').addEventListener('click', function() {
+            document.getElementById('image').click();  // Correspond à l'ID de l'input file
+        });
+    </script>
+    
+</body>
+</html>

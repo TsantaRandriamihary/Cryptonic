@@ -1,0 +1,262 @@
+{
+	"info": {
+		"_postman_id": "2b09e84f-62fb-4ebe-8081-05041a0e8549",
+		"name": "Identify Provider",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "39761596"
+	},
+	"item": [
+		{
+			"name": "SignUp",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"andrianantenainamahandry31@gmail.com\",\r\n    \"password\": \"Mahandry1920\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Local}}api/SignUp/signup",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"SignUp",
+						"signup"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check PIN Confirmation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Session-User-Email",
+						"value": "andrianantenainamahandry31@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "Session-User-Password",
+						"value": "Mahandry1920",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"andrianantenainamahandry31@gmail.com\",\r\n    \"password\": \"Mahandry1920\",\r\n    \"pin\" : \"794408\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Local}}api/SignUp/pin-confirmation",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"SignUp",
+						"pin-confirmation"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert Profil",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"nom\": \"Mahandry\",\r\n  \"prenom\": \"ANDRIANATENAINA\",\r\n  \"naissance\": \"2004-09-08\",\r\n  \"idgenre\" : 1,\r\n  \"iduser\" : 1,\r\n  \"image\" : \"http://res.cloudinary.com/duvfwe8zh/image/upload/v1738824267/cryto/inozuq4klmrf6no1l0ml.jpg\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Local}}api/UserProfil/",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"UserProfil",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profil User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Local}}api/UserProfil/1",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"UserProfil",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profil User By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{Local}}api/UserProfil/1",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"UserProfil",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"andrianantenainamahandry31@gmail.com\",\r\n    \"password\": \"Mahandry1920\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Local}}api/Login/login",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"Login",
+						"login"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check PIN login Confirmation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Session-User-Email",
+						"value": "andrianantenainamahandry31@gmail.com",
+						"type": "text"
+					},
+					{
+						"key": "Session-User-Password",
+						"value": "Mahandry1920",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\" : \"andrianantenainamahandry31@gmail.com\",\r\n    \"pin\" : \"400719\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Local}}api/Login/validate-pin",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"Login",
+						"validate-pin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "LogOut",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Local}}api/LogOut/logout",
+					"host": [
+						"{{Local}}api"
+					],
+					"path": [
+						"LogOut",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Local",
+			"value": "http://localhost:5140/",
+			"type": "string"
+		}
+	]
+}

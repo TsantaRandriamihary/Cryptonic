@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="app">
+
+        <div th:insert="~{fragment/sidebar_frontoffice :: sidebar}"></div>
+
+        <!-- Content Wrapper -->
+        <div id="main" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="page-content">
+
+<!--                <div th:insert="fragment/header :: header"></div>-->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <div class="col-lg-6">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Demande de Transaction Envoyée</h1>
+                                <p>Votre demande de <strong th:text="${type}"></strong> de <strong th:text="${montant}"></strong> Ar est en attente de validation.</p>
+
+                                <div th:if="${idCrypto != null}">
+                                    <p>Cryptomonnaie : <strong th:text="${idCrypto}"></strong></p>
+                                    <p>Quantité : <strong th:text="${quantite}"></strong></p>
+                                </div>
+                            </div>
+                            <a href="/frontoffice/portefeuille" class="btn btn-primary">Voir votre portefeuille</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="~{fragment/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" th:href="@{#page-top}">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+
+</body>
+
+</html>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="app">
+
+    <div th:insert="~{fragment/sidebar_backoffice :: sidebar}"></div>
+
+        
+    <!-- Content Wrapper -->
+    <div id="main" class="d-flex flex-column">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+
+        <!-- Main Content -->
+        <div id="page-content">
+            <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <h1 class="h3 mb-2 text-gray-800">Recapitulatif</h1>
+                    <div class="row">
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card border-left-primary shadow h-100 py-2">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <form class="" id="filterForm" onsubmit="filterData(event)">
+                                            <div class="form-group">
+                                                <label for="startDate" class="form-label">Début</label>
+                                                <input type="date" id="startDate" name="startDate" class="form-control">
+                                            </div>
+                                            <div class="form-group mb-3">
+                                                <label for="endDate" class="mr-2">Fin</label>
+                                                <input type="date" id="endDate" name="endDate" class="form-control">
+                                            </div>
+                                            <button type="submit" class="btn btn-primary">Filtrer</button>
+                                        </form>
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-xl-8 col-lg-7">
+                            <div class="card shadow mb-4">
+                                <div class="card-header py-3">
+                                    <h6 class="m-0 font-weight-bold text-primary">Courbe d'évolution</h6>
+                                </div>
+                                <div class="card-body">
+                                    <div class="chart-area">
+                                        <canvas id="myAreaChart" style="width: 100%; height: 600px;"></canvas>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="~{fragment/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" th:href="@{#page-top}">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" th:href="@{login.html}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function filterData(event) {
+            event.preventDefault();
+    
+            const startDate = document.getElementById("startDate").value;
+            const endDate = document.getElementById("endDate").value;
+    
+            loadChartData(startDate, endDate);
+        }
+    
+        function loadChartData(startDate, endDate) {
+            $.ajax({
+                url: '/backoffice/crypto/historique',
+                data: { startDate: startDate, endDate: endDate },
+                success: function(data) {
+                    const labels = [];
+                    const cryptoData = {};
+    
+                    data.forEach(item => {
+                        if (!labels.includes(item.dateChangement)) {
+                            labels.push(item.dateChangement);
+                        }
+    
+                        if (!cryptoData[item.cryptoNom]) {
+                            cryptoData[item.cryptoNom] = {
+                                label: item.cryptoNom,
+                                data: [],
+                                borderColor: getRandomColor(item.cryptoNom),
+                                fill: false,
+                            };
+                        }
+    
+                        cryptoData[item.cryptoNom].data.push(item.prixHistorique);
+                    });
+    
+                    updateChart(labels, Object.values(cryptoData));
+                },
+                error: function() {
+                    alert("Erreur lors du chargement des données.");
+                }
+            });
+        }
+    
+        // Liste de couleurs vives prédéfinies
+        const colorPalette = [
+            '#FF5733', '#33FF57', '#3357FF', '#F39C12', '#8E44AD', '#2C3E50', 
+            '#E74C3C', '#1ABC9C', '#9B59B6', '#F1C40F', '#16A085', '#E67E22'
+        ];
+    
+        function getRandomColor(cryptoName) {
+            // Utilisation d'une couleur unique et définie pour chaque crypto
+            const index = cryptoName.length % colorPalette.length; // Variation selon le nom de la crypto
+            return colorPalette[index];
+        }
+    
+        let myLineChart; 
+
+        function updateChart(labels, datasets) {
+            const ctx = document.getElementById("myAreaChart").getContext('2d');
+            
+            if (myLineChart) {
+                myLineChart.destroy();
+            }
+        
+            myLineChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,  // Labels pour l'axe des X
+                    datasets: datasets,  // Données à afficher
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: {
+                            type: 'time', 
+                            time: {
+                                parser: 'YYYY-MM-DD HH:mm:ss', // Format de la date
+                                unit: 'second',  // Unité pour l'axe X (on utilise les secondes)
+                                stepSize: 10, // Intervalle de 10 secondes entre chaque donnée
+                                tooltipFormat: 'll HH:mm',  // Format d'affichage dans le tooltip
+                            },
+                            title: {
+                                display: true,
+                                text: 'Date',
+                                font: {
+                                    size: 18
+                                }
+                            },
+                            ticks: {
+                                display: false,  // Ne pas afficher les labels sur l'axe des X
+                                font: {
+                                    size: 14
+                                }
+                            },
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Prix Historique ($)',
+                                font: {
+                                    size: 18
+                                }
+                            },
+                            ticks: {
+                                font: {
+                                    size: 14
+                                }
+                            },
+                        },
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                            labels: {
+                                font: {
+                                    size: 16
+                                }
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return `$${tooltipItem.raw}`;  // Format du tooltip pour afficher un prix
+                                }
+                            },
+                            bodyFont: {
+                                size: 16
+                            }
+                        }
+                    },
+                }
+            });
+        }
+        
+        
+        
+        loadChartData('', '');
+    </script>
+    
+    
+    <div th:insert="~{fragment/script :: script}"></div>
+
+</body>
+
+</html>

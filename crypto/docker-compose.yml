@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: crypto
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d/
+    networks:
+      - my_network
+
+  app:
+    build: .
+    container_name: crypto_app
+    restart: always
+    depends_on:
+      - db
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/crypto
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+      csharp.api.base-url: http://identity_provider_app:5140  # URL de Identity Provider
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./templates:/app/templates  # Monte le répertoire "templates" local dans le conteneur
+    networks:
+      - my_network
+
+volumes:
+  postgres_data:
+
+networks:
+  my_network:
+    external: true

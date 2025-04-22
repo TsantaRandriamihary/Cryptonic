@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="app">
+
+        <!-- Sidebar -->
+
+            <div th:insert="~{fragment/sidebar_frontoffice :: sidebar}"></div>
+            <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="main" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="page-content">
+
+                <!-- Topbar -->
+<!--                <div th:insert="fragment/header :: header"></div>-->
+
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Fonds</h1>
+                    <p class="mb-4">Vous avez un solde de : <strong> Ar <span th:text="${fondActuel}"></span> </strong></p>
+                    <p>
+                        Vous trouverez ci-dessous la liste de vos transactions. 
+                        Vous pouvez toujours faire un 
+                        <a href="depot" class="btn btn-primary">dépôt</a> ou un 
+                        <a href="retrait" class="btn btn-success">retrait</a> à tout moment.
+                    </p>
+                
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Transactions</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>Date</th>
+                                            <th>Débit</th>
+                                            <th>Crédit</th>
+                                        </tr>
+                                    </thead>
+                                    <tfoot>
+                                    </tfoot>
+                                    <tbody>
+                                        <tr th:each="transaction : ${transactions}">
+                                            <td th:text="${transaction.dateTransaction}"></td>
+                                            <td th:text="${transaction.montantRetrait}"></td>
+                                            <td th:text="${transaction.montantDepot}"></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+                
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="~{fragment/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" th:href="@{#page-top}">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" th:href="@{login.html}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+
+</body>
+
+</html>

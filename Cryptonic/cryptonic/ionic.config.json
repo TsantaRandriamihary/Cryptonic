@@ -1,0 +1,7 @@
+{
+  "name": "cryptonic",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}

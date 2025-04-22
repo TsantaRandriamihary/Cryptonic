@@ -1,0 +1,66 @@
+<div th:fragment="header">
+    <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" th:href="@{#}" id="userDropdown" role="button"
+                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+
+                    <!-- 🔹 Affichage de la photo de profil -->
+                    <img id="user-profile-image" class="img-profile rounded-circle"
+                           style="width: 40px; height: 40px; object-fit: cover;">
+
+                    <!-- 🔹 Affichage du nom -->
+                    <span id="user-profile-name" class="ml-2 d-none d-lg-inline text-gray-600 small">
+                        Utilisateur
+                    </span>
+                </a>
+
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                     aria-labelledby="userDropdown">
+                    <a class="dropdown-item" th:href="@{/userProfil/edit}">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Modifier votre profil
+                    </a>
+                    <a class="dropdown-item" th:href="@{/parametre/edit}">
+                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Paramètre
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" th:href="@{/logout}">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Se déconnecter
+                    </a>
+                </div>
+            </li>
+
+        </ul>
+    </nav>
+
+    <!-- Script AJAX pour récupérer les données utilisateur -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            function loadUserProfileData() {
+                fetch('/header/data')
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            document.getElementById('user-profile-image').src = data.image;
+                            document.getElementById('user-profile-name').textContent = data.nom;
+                        } else {
+                            console.error("Aucun utilisateur trouvé.");
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Erreur lors du chargement des données utilisateur:", error);
+                    });
+            }
+
+            loadUserProfileData();
+        });
+    </script>
+</div>

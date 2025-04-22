@@ -1,0 +1,36 @@
+services:
+  app:
+    build: .
+    container_name: identity_provider_app
+    ports:
+      - "5140:5140"
+    depends_on:
+      - db_identity
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=db_identity;Port=5432;Database=identity;Username=postgres;Password=postgres"
+    restart: always
+    networks:
+      - my_network
+
+  db_identity:
+    image: postgres:15
+    container_name: identity_provider_db
+    restart: always
+    environment:
+      POSTGRES_DB: identity
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5433:5432"  # 5433 sur l'hôte pour éviter le conflit avec l'autre PostgreSQL
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+      - ./database:/docker-entrypoint-initdb.d/
+    networks:
+      - my_network
+
+volumes:
+  pg_data:
+
+networks:
+  my_network:
+    external: true

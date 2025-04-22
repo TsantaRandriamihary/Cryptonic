@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/fulllink :: fulllink}"></head>
+
+<body id="page-top">
+    <!-- Page Wrapper -->
+    <div id="app">
+
+        <div th:insert="~{fragment/sidebar_backoffice :: sidebar}"></div>
+
+        <!-- Content Wrapper -->
+        <div id="main" class="d-flex flex-column">
+            <header class="mb-3">
+                <a href="#" class="burger-btn d-block d-xl-none">
+                    <i class="bi bi-justify fs-3"></i>
+                </a>
+            </header>
+
+            <!-- Main Content -->
+            <div id="page-content">
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <!-- Page Heading -->
+                    <h1 class="h3 mb-2 text-gray-800">Demandes de Transactions</h1>
+                    <p class="mb-4">Liste des demandes de transaction en attente de validation :</p>
+
+                    <!-- Table -->
+                    <div class="card shadow mb-4">
+                        <div class="card-header py-3">
+                            <h6 class="m-0 font-weight-bold text-primary">Demandes en attente</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Montant Dépôt</th>
+                                            <th>Montant Retrait</th>
+                                            <th>Quantité</th>
+                                            <th>ID Crypto</th>
+                                            <th>ID Utilisateur</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="demande : ${demandes}">
+                                            <td th:text="${demande.idDemande}"></td>
+                                            <td th:text="${demande.montantDepot}"></td>
+                                            <td th:text="${demande.montantRetrait}"></td>
+                                            <td th:text="${demande.quantite} ?: 'N/A'"></td>
+                                            <td th:text="${demande.idCrypto} ?: 'N/A'"></td>
+                                            <td th:text="${demande.idUser}"></td>
+                                            <td>
+                                                <form th:action="@{/backoffice/demandes/accepter/{id}(id=${demande.idDemande})}" method="post" class="d-inline">
+                                                    <button type="submit" class="btn btn-success btn-sm">Accepter</button>
+                                                </form>
+                                                <form th:action="@{/backoffice/demandes/refuser/{id}(id=${demande.idDemande})}" method="post" class="d-inline">
+                                                    <button type="submit" class="btn btn-danger btn-sm">Refuser</button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="~{fragment/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" th:href="@{#page-top}">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+
+    <script>
+        setInterval(function() {
+            location.reload();
+        }, 5000);
+    </script>
+
+</body>
+
+</html>

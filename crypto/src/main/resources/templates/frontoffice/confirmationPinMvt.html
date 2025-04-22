@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{fragment/link :: link}"></head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5;
+        margin: 0;
+    }
+    .pin-container {
+        display: flex;
+        justify-content: space-between;
+        width: 320px;
+    }
+    .pin-input {
+        width: 40px;
+        height: 40px;
+        text-align: center;
+        font-size: 24px;
+        border: 2px solid #333;
+        border-radius: 8px;
+        margin: 0 5px;
+        outline: none;
+    }
+    .pin-input:focus {
+        border-color: #4CAF50;
+    }
+    .pin-input::placeholder {
+        color: transparent;
+    }
+    .submit-btn {
+        margin-top: 20px;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+        border: none;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 5px;
+    }
+    .submit-btn:hover {
+        background-color: #45a049;
+    }
+    .pin-display {
+        margin-top: 20px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+</style>
+
+<body id="page-top">
+
+<!-- Page Wrapper -->
+<div id="wrapper">
+
+    <div th:insert="~{fragment/sidebar_frontoffice :: sidebar}"></div>
+    <!-- End of Sidebar -->
+
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+            <!-- Main Content -->
+            <div id="content">
+
+                <!-- Topbar -->
+                <div th:insert="~{fragment/header :: header}"></div>
+                <!-- End of Topbar -->
+
+                <!-- Begin Page Content -->
+                <div class="container-fluid">
+                    <div class="col-lg-6">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Confirmation PIN</h1>
+                                <p>Un code PIN a été envoyé à votre adresse e-mail. Veuillez l'insérer pour confirmer votre <strong th:text="${type}"></strong> de <strong th:text="${montant*quantite}"></strong> Ar.</p>
+                            </div>
+                
+                            <!-- Affichage des erreurs -->
+                            <div th:if="${errorMessage != null}" class="alert alert-danger" th:text="${errorMessage}"></div>
+                
+                            <form class="user" th:action="@{/frontoffice/crypto/confirmer}" method="post">
+                                <input type="hidden" name="type" th:value="${type}" />
+                                <input type="hidden" name="idCrypto" th:value="${idCrypto}" />
+                                <input type="hidden" name="quantite" th:value="${quantite}" />
+                                <input type="hidden" name="montant" th:value="${montant}" />
+                                <input type="hidden" name="email" th:value="${email}" />
+                                <div class="pin-container d-flex align-items-center justify-content-center" style="width: 100%">
+                                    <input type="text" class="pin-input" maxlength="1" oninput="moveFocus(this, event)" />
+                                    <input type="text" class="pin-input" maxlength="1" oninput="moveFocus(this, event)" />
+                                    <input type="text" class="pin-input" maxlength="1" oninput="moveFocus(this, event)" />
+                                    <input type="text" class="pin-input" maxlength="1" oninput="moveFocus(this, event)" />
+                                    <input type="text" class="pin-input" maxlength="1" oninput="moveFocus(this, event)" />
+                                    <input type="text" class="pin-input" maxlength="1" oninput="moveFocus(this, event)" />
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control form-control-user" id="hiddenPinInput" aria-describedby="PIN"
+                                           placeholder="PIN" name="pin" hidden="" required>
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary">Confirmer</button>
+                                    <button type="reset" class="btn btn-secondary">Effacer</button>
+                                </div>
+                            </form>
+                            
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- /.container-fluid -->
+
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <div th:insert="~{fragment/footer :: footer}"></div>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" th:href="@{#page-top}">
+        <i class="fas fa-angle-up"></i>
+    </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <a class="btn btn-primary" th:href="@{login.html}">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:insert="~{fragment/script :: script}"></div>
+    <script>
+        function moveFocus(currentInput, event) {
+            if (event.inputType === "insertText" && currentInput.value !== "") {
+                const nextInput = currentInput.nextElementSibling;
+                if (nextInput) nextInput.focus();
+            }
+            if (event.inputType === "deleteContentBackward" && currentInput.value === "") {
+                const previousInput = currentInput.previousElementSibling;
+                if (previousInput) previousInput.focus();
+            }
+            updatePin(currentInput);
+        }
+
+        function updatePin(input) {
+            const pinInputs = document.querySelectorAll('.pin-input');
+            let pin = '';
+
+            pinInputs.forEach(input => {
+                pin += input.value;
+            });
+
+            document.getElementById('hiddenPinInput').value = pin;
+        }
+    </script>
+
+</body>
+
+</html>

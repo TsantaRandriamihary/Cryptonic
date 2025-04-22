@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragment/link :: link}">
+    <meta charset="UTF-8">
+    <title>Modifier Profil</title>
+</head>
+<body class="bg-gradient-primary">
+    <div class="container">
+        <!-- Outer Row -->
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-10 col-md-12">
+                <div class="card o-hidden border-0 shadow-lg my-5">
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Modifier votre profil</h1>
+                        </div>
+                        
+                        <!-- Affichage du message d'erreur s'il existe -->
+                        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+                            <span th:text="${errorMessage}"></span>
+                        </div>
+                        
+                        <!-- Formulaire de modification du profil -->
+                        <form class="user" th:action="@{/userProfil/update}" method="post" enctype="multipart/form-data">
+                            <div class="form-group text-center">
+                                <label for="image">Photo de profil</label>
+                                <div style="display: flex; flex-direction: column; align-items: center;">
+                                    <img id="preview" 
+                                         th:src="${userProfil?.image ?: 'https://via.placeholder.com/150'}" 
+                                         alt="Votre photo de profil"
+                                         style="width: 150px; height: 150px; border-radius: 50%; object-fit: cover; cursor: pointer;"
+                                         onclick="document.getElementById('image').click();">
+                        
+                                    <input type="hidden" name="currentImage" th:value="${userProfil?.image}">
+                        
+                                    <input type="file" 
+                                           class="form-control" 
+                                           id="image" 
+                                           name="image" 
+                                           style="display: none;" 
+                                           accept="image/*"
+                                           onchange="previewImage(event)">
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user"
+                                       name="nom" placeholder="Nom" th:value="${userProfil?.nom}">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control form-control-user"
+                                       name="prenom" placeholder="Prénom" th:value="${userProfil?.prenom}">
+                            </div>
+                            <div class="form-group">
+                                <input type="date" class="form-control form-control-user"
+                                       name="naissance" placeholder="Date de naissance" th:value="${userProfil?.naissance}">
+                            </div>
+                            <div class="form-group">
+                                <select class="form-control form-control-user custom-select" name="idGenre">
+                                    <option value="">Sélectionnez un genre</option>
+                                    <option th:each="genre : ${genres}" 
+                                            th:value="${genre.idGenre}" 
+                                            th:text="${genre.val}" 
+                                            th:selected="${genre.idGenre == userProfil?.idGenre}">
+                                    </option>
+                                </select>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary btn-user btn-block">
+                                Mettre à jour
+                            </button>
+                            <hr>
+                            <a href="#" class="btn btn-outline-primary btn-user btn-block" onclick="history.back(); return false;">
+                                Annuler
+                            </a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div th:insert="~{fragment/script :: script}"></div>
+
+    <script>
+        function previewImage(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById("preview").src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+</body>
+</html>

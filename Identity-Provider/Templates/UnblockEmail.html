@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenue</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+        }
+        .code-pin {
+            font-size: 3em;
+            font-weight: bold;
+            margin: 20px 0 20px 30px;
+        }
+        .signature {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<h1>Bonjour, {{UserName}}!</h1>
+<p>Pour debloquer votre compte, vous devrez entrer ce code PIN temporaire pour accéder à nouveau à votre compte :</p>
+<p class="code-pin">{{Pin}}</p>
+<p>Ce code PIN expirera le : <strong>{{ExpirationDate}}</strong>.</p>
+<p>Si vous avez des questions, n'hésitez pas à nous contacter.</p>
+<p> Cordialement, </p>
+<p class="signature">L'équipe Identity Provider REST API</p>
+</body>
+</html>
